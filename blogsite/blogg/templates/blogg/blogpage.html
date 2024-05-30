@@ -1,0 +1,24 @@
+{% extends 'blogg/base.html' %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block content %}
+<button onclick="history.back()">Go back to Dashboard</button>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ blog.title }}</h2>
+                    <p class="card-text">{{ blog.content }}</p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Created by {{ blog.author.username }} on {{ blog.created_at }} | Last updated on {{ blog.updated_at }}
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

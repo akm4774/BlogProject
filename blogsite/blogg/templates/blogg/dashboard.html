@@ -1,0 +1,67 @@
+{% extends 'blogg/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mb-4">Dashboard</h2>
+            {% if user.is_authenticated %}
+                <p>Welcome, {{ user.username }}!</p>
+
+                <div class="accordion" id="addBlogAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Add Blog
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#addBlogAccordion">
+                            <div class="accordion-body">
+                                <form action="{% url 'add_blog' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="blog_title" class="form-label">Blog Title</label>
+                                        <input type="text" class="form-control" id="blog_title" name="title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="blog_content" class="form-label">Blog Content</label>
+                                        <textarea class="form-control" id="blog_content" name="content" rows="5" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Add Blog</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+            {% else %}
+                <p>You are not logged in. <a href="{% url 'login' %}" class="btn btn-primary me-2">Login</a> or <a href="{% url 'signup' %}" class="btn btn-primary me-1">Sign Up</a></p>
+            {% endif %}
+            <hr>
+            <!-- Display Blogs -->
+            <h3 class="mt-4">Recent Blogs</h3>
+            {% if blogs %}
+                {% for blog in blogs %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a></h5>
+                            <p class="card-text">{{ blog.truncated_content }}</p>
+                            <p class="card-text"><small class="text-muted">Created by {{ blog.author.username }} on {{ blog.created_at }} | Last updated on {{ blog.updated_at }}</small></p>
+                            {% if blog.author == user %}
+                                <a href="{% url 'edit_blog' blog.id %}" class="btn btn-primary">Edit</a>
+                                <a href="{% url 'delete_blog' blog.id %}" class="btn btn-danger">Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No blogs found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

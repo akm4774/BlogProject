@@ -1,0 +1,45 @@
+{% extends 'blogg/base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mb-4">Profile</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    {{ user_form.username }}
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    {{ user_form.email }}
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Profile Image</label>
+                    {% if profile_form.instance.image %}
+                        <img src="{{ profile_form.instance.image.url }}" alt="Profile Image" class="img-thumbnail mb-3" style="max-width: 200px;">
+                    {% endif %}
+                    {{ profile_form.image }}
+                </div>
+                <button type="submit" class="btn btn-success">Update Profile</button>
+            </form>
+
+            <hr>
+
+            <!-- Logout Button -->
+            <form method="post" action="{% url 'custom_logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Logout</button>
+            </form>
+
+            <hr>
+
+            <!-- Delete Account Button -->
+            <button class="btn btn-danger">Delete Account</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
