@@ -1,10 +1,15 @@
 {% extends 'blogg/base.html' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
 <head>
     <title>Login</title>
+    <style>
+        .toggle-password {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h2>Login</h2>
@@ -19,4 +24,25 @@
         </div>
     {% endif %}
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const passwordField = document.querySelector('input[type="password"]');
+        const toggleButton = document.createElement('button');
+        toggleButton.type = 'button';
+        toggleButton.textContent = 'Show Password';
+        toggleButton.classList.add('toggle-password');
+
+        passwordField.parentNode.appendChild(toggleButton);
+
+        toggleButton.addEventListener('click', () => {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleButton.textContent = 'Hide Password';
+            } else {
+                passwordField.type = 'password';
+                toggleButton.textContent = 'Show Password';
+            }
+        });
+    });
+</script>
 {% endblock %}

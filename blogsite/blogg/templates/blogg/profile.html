@@ -38,7 +38,10 @@
             <hr>
 
             <!-- Delete Account Button -->
-            <button class="btn btn-danger">Delete Account</button>
+            <form method="get" action="{% url 'delete_account' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete Account</button>
+            </form>
         </div>
     </div>
 </div>

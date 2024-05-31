@@ -132,3 +132,12 @@ class BlogDetailView(DetailView):
     model = Blog
     template_name = 'blogg/blogpage.html'
     context_object_name = 'blog'
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST' and 'confirm' in request.POST:
+        user = request.user
+        logout(request)
+        user.delete()
+        return redirect('home')
+    return render(request, 'blogg/confirm_delete_account.html')
